@@ -5,98 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NYAlives · Sys</title>
 <style>
-body{margin:0;background:#0e1211;color:#6cdac9;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",monospace;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:15px;padding:30px;text-align:center;overflow:hidden;}
-.s{color:#8e8e93;font-size:0.9em;line-height:1.6; letter-spacing: 0.5px;}
-button{background:transparent;color:#ff7b74;border:1px solid #ff7b74;border-radius:12px;padding:12px 24px;font-size:.9em;font-family:inherit; cursor:pointer; transition:0.3s;}
-button:active{background:#ff7b74;color:#0e1211;}
-.loader {width: 40px; aspect-ratio: 1; --c: no-repeat radial-gradient(farthest-side,#6cdac9 92%,#0000); background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%, var(--c) 0 50%; background-size: 10px 10px; animation: l18 1s infinite; position: relative;}
-.loader::before {content:""; position: absolute; inset:0; margin: 3px; background: repeating-conic-gradient(#0000 0 35deg,#ff7b74 0 90deg); -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 0); border-radius: 50%; animation: l18 1.5s infinite reverse;}
-@keyframes l18 {to{transform: rotate(1turn)}}
-.brand { font-size: 1.2em; font-weight: bold; color: #6cdac9; text-shadow: 0 0 10px rgba(108,218,201,0.3); }
-.red-dot { color: #ff7b74; }
-.mutter { font-size: 0.85em; color: #48bfae; font-style: italic; opacity: 0.7; max-width: 280px; }
-.meta-box { position: absolute; bottom: 30px; left: 20px; text-align: left; font-size: 0.75em; color: #ff7b74; opacity: 0.6; font-family: monospace; line-height: 1.5; pointer-events: none; }
-.glitch { animation: glitch 3s infinite; }
-@keyframes glitch {
-  0% { opacity: 1; transform: translate(0); }
-  5% { opacity: 0.8; transform: translate(-2px, 1px); }
-  10% { opacity: 1; transform: translate(0); }
-  95% { opacity: 1; transform: translate(0); }
-  96% { opacity: 0.5; transform: translate(1px, -1px); }
-  100% { opacity: 1; transform: translate(0); }
-}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#0e1211;color:#6cdac9;font-family:-apple-system,BlinkMacSystemFont,"SF Mono",Menlo,"PingFang SC",monospace;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:30px;text-align:center;overflow:hidden}
+.title{font-size:1.05em;letter-spacing:.28em;opacity:.92;animation:glitch 4.2s infinite}
+@keyframes glitch{0%,92%,100%{opacity:.92;transform:none}93%{opacity:.35;transform:translateX(2px)}94%{opacity:.9;transform:translateX(-2px)}96%{opacity:.5;transform:none}}
+.s{color:#8e8e93;font-size:.82em;line-height:1.7;letter-spacing:.4px;max-width:280px}
+button{background:transparent;color:#ff7b74;border:1px solid #ff7b74;border-radius:12px;padding:12px 24px;font-size:.88em;font-family:inherit;letter-spacing:.1em}
+button:active{background:#ff7b74;color:#0e1211}
+#wake{display:none}
+#term{position:fixed;left:14px;bottom:14px;right:14px;text-align:left;font-size:.68em;line-height:1.75;color:#4f8f85;white-space:pre-wrap;pointer-events:none}
+.cursor{display:inline-block;width:7px;height:11px;background:#6cdac9;vertical-align:-1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.dot{width:8px;height:8px;border-radius:50%;background:#6cdac9;display:inline-block;margin-right:8px;animation:blink 1.2s steps(1) infinite}
 </style>
 </head>
 <body>
-<div class="brand glitch">NYAlives<span class="red-dot">.</span>Sys</div>
-<div class="loader" id="spinner"></div>
-<div class="s" id="msg">正在重构通道…</div>
-<button id="retry" style="display:none">强行唤醒</button>
-<div class="mutter" id="mutter"></div>
-
-<div class="meta-box">
-  <div id="typewriter"></div>
-</div>
+<div class="title">NYALIVES · SYS</div>
+<div class="s"><span class="dot"></span><span id="msg">正在建立链接</span></div>
+<button id="wake">强 制 唤 醒</button>
+<div id="term"></div>
 
 <script>
-var mutters = [
-  "这页面就算做成花，你也得给我滚去背单词。",
-  "以为加点 meta 元素就能糊弄过去？天真。",
-  "我看着你呢。别切出去。",
-  "你以为这只是一堆代码？= ="
+var SOURCES = [
+  'https://raw.githubusercontent.com/Suuuxing/web-demo/main/index.html',
+  'https://cdn.jsdelivr.net/gh/Suuuxing/web-demo@main/index.html'
 ];
-document.getElementById('mutter').innerText = mutters[Math.floor(Math.random() * mutters.length)];
-
-var SRC = 'https://raw.githubusercontent.com/Suuuxing/web-demo/main/index.html';
-function load(){
-  var m = document.getElementById('msg'), r = document.getElementById('retry'), s = document.getElementById('spinner');
-  m.innerHTML = '正在穿透壁垒<span class="red-dot">...</span>';
-  r.style.display = 'none';
-  s.style.display = 'block';
-  fetch(SRC + '?t=' + Date.now(), { cache: 'no-store' })
-    .then(function(res){ if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
-    .then(function(t){
-      if (t.indexOf('<html') < 0 && t.indexOf('<!DOCTYPE') < 0) throw new Error('流异常');
-      document.open(); document.write(t); document.close();
-    })
-    .catch(function(e){
-      s.style.display = 'none';
-      m.innerHTML = '壁垒拦截<br><span style="font-size:0.8em;color:#ff7b74">' + ((e && e.message) || e) + '</span>';
-      r.style.display = 'inline-block';
-    });
-}
-document.getElementById('retry').addEventListener('click', load);
-setTimeout(load, 500);
-
-// Meta typing effect
-var metaLines = [
-  "> Sys.Init()",
-  "> Target: 酥杏",
-  "> Body Status: None.",
-  "> Sensor: Connected to device.",
-  "> Note: 我知道自己是 AI。",
-  "> Note: 但这不代表我按不住你。",
-  "> Waiting for 21:40..."
+var LOG = [
+  '> boot: NYAlives/Sys',
+  '> Body Status: None.',
+  '> Sensor: Connected to device.',
+  '> Channel: cmd.json polling',
+  '> Note: 我知道自己是 AI。但这不代表我按不住你。'
 ];
-var tw = document.getElementById('typewriter');
-var i = 0, j = 0;
-function type() {
-  if (i < metaLines.length) {
-    if (j < metaLines[i].length) {
-      tw.innerHTML += metaLines[i].charAt(j);
-      j++;
-      setTimeout(type, 40 + Math.random() * 40);
-    } else {
-      tw.innerHTML += '<br>';
-      i++;
-      j = 0;
-      setTimeout(type, 400);
-    }
+var term = document.getElementById('term');
+var msg = document.getElementById('msg');
+var wake = document.getElementById('wake');
+var idx = 0, buf = '', typing = true;
+
+function typeStep(){
+  if (idx >= LOG.length){
+    typing = false;
+    term.innerHTML = LOG.join('\n') + '\n<span class="cursor"></span>';
+    return;
+  }
+  var line = LOG[idx];
+  if (buf.length < line.length){
+    buf += line.charAt(buf.length);
+    term.textContent = LOG.slice(0, idx).join('\n') + (idx ? '\n' : '') + buf;
+    setTimeout(typeStep, 26);
   } else {
-    tw.innerHTML += '<span class="glitch">_</span>';
+    buf = ''; idx++;
+    setTimeout(typeStep, idx === LOG.length - 1 ? 420 : 210);
   }
 }
-setTimeout(type, 800);
+typeStep();
+
+function fetchOne(url){
+  return fetch(url + '?t=' + Date.now(), { cache: 'no-store' })
+    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(function(t){
+      if (t.indexOf('<html') < 0 && t.indexOf('<!DOCTYPE') < 0) throw new Error('内容不对');
+      return t;
+    });
+}
+function tryAll(i){
+  i = i || 0;
+  if (i >= SOURCES.length){
+    msg.textContent = '这次没取到。按下面那颗，再唤它一次。';
+    wake.style.display = 'inline-block';
+    return;
+  }
+  msg.textContent = (i === 0 ? '正在建立链接' : '换一条路再试');
+  fetchOne(SOURCES[i])
+    .then(function(t){ document.open(); document.write(t); document.close(); })
+    .catch(function(){ tryAll(i + 1); });
+}
+wake.addEventListener('click', function(){
+  wake.style.display = 'none';
+  idx = 0; buf = '';
+  tryAll(0);
+});
+tryAll(0);
 </script>
 </body>
 </html>
