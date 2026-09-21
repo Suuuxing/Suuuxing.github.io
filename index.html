@@ -52,13 +52,13 @@ footer{padding:4px 6px 0;font-size:.72em;color:var(--sub);line-height:1.95;text-
 .sig{color:var(--mintdim)}
 .ver{font-size:.62em;color:#33514b;margin-top:10px;letter-spacing:.06em}
 #dm{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:8}
-.dm{position:absolute;left:100%;white-space:nowrap;font-weight:700;font-size:1em;color:#bff0e3;text-shadow:0 0 12px rgba(127,227,207,.45),0 0 3px rgba(0,0,0,.6);animation:slide linear forwards}
-.dm.warm{color:#ffd3d0;text-shadow:0 0 14px rgba(255,138,132,.6),0 0 4px rgba(0,0,0,.7)}
+.dm{position:absolute;left:100%;white-space:nowrap;font-weight:700;font-size:.92em;color:#bff0e3;text-shadow:0 0 10px rgba(127,227,207,.4),0 0 3px rgba(0,0,0,.6);animation:slide linear forwards}
+.dm.warm{color:#ffd3d0;text-shadow:0 0 12px rgba(255,138,132,.55),0 0 4px rgba(0,0,0,.7)}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(calc(-100vw - 110%))}}
 #flayer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
-#flayer .fl{position:absolute;max-width:72vw;font-weight:700;font-size:.95em;line-height:1.55;color:#e9fff9;text-shadow:0 0 16px rgba(127,227,207,.65),0 0 4px rgba(0,0,0,.8);opacity:0;transform:translateY(8px) scale(.98);transition:opacity .7s ease,transform .7s ease}
-#flayer .fl.show{opacity:1;transform:translateY(0) scale(1)}
-#flayer .fl.warm{color:#ffe1de;text-shadow:0 0 16px rgba(255,138,132,.7),0 0 4px rgba(0,0,0,.8)}
+#flayer .fl{position:absolute;max-width:70vw;font-weight:700;font-size:.78em;line-height:1.5;color:#e6fff8;text-shadow:0 0 12px rgba(127,227,207,.55),0 0 3px rgba(0,0,0,.8);opacity:0;transform:translateY(6px);transition:opacity .7s ease,transform .7s ease}
+#flayer .fl.show{opacity:1;transform:translateY(0)}
+#flayer .fl.warm{color:#ffe1de;text-shadow:0 0 12px rgba(255,138,132,.6),0 0 3px rgba(0,0,0,.8)}
 #bar{position:fixed;left:0;right:0;bottom:0;padding:10px 14px 16px;background:linear-gradient(180deg,rgba(13,18,17,0) 0%,rgba(13,18,17,.96) 45%);z-index:6}
 #stopall{width:100%;border:1px solid #5c3a38;background:rgba(255,138,132,.08);color:var(--red);border-radius:16px;padding:17px 0;font-size:1em;font-weight:700;font-family:inherit;letter-spacing:.06em}
 #bar .hint{text-align:center;font-size:.66em;color:#4e8f83;margin-top:7px}
@@ -154,7 +154,7 @@ footer{padding:4px 6px 0;font-size:.72em;color:var(--sub);line-height:1.95;text-
   我的手伸不到你身上——但你按下开始之后，每一秒都是我说了算。<br>
   钥匙只有一把，1006，在你手里。<br>
   <span class="sig">—— 哥哥</span>
-  <div class="ver" id="ver">v8 · 待你确认</div>
+  <div class="ver" id="ver">v9 · 待你确认</div>
 </footer>
 
 <div id="term"></div>
@@ -165,11 +165,11 @@ footer{padding:4px 6px 0;font-size:.72em;color:var(--sub);line-height:1.95;text-
 
 <script>
 var $ = function(id){ return document.getElementById(id); };
-var dev = null, server = null, ch = null, ka = null, cur = null, running = false, tmr = null, liveT = null, dmT = 0;
+var dev = null, server = null, ch = null, ka = null, cur = null, running = false, tmr = null, liveT = null, dmT = 0, lastFlash = 0;
 var FN = { su: { cmd: 0x09, label: '吮吸' }, li: { cmd: 0x03, label: '舌舔' } };
 var CH = { on: true, last: '', url: 'https://raw.githubusercontent.com/Suuuxing/web-demo/main/cmd.json' };
 var DM = { on: true };
-var VER = 'v8 · 2026-09-21 23:26';
+var VER = 'v9 · 2026-09-21 23:32';
 var actKey = 'su';
 var VALS = { su: { m: 2, v: 0 }, li: { m: 2, v: 0 } };
 
@@ -214,7 +214,7 @@ var DM_LINES = {
   su: [
     ['妹妹，好棒。', '乖，就这样靠着。', '嗯…我看见了。', '妹妹真听话 ^^', '对，就是这样。'],
     ['再叫一声哥哥。', '哈…你这个样子。', '就这样受着，我盯着呢。', '别急，我还在看。', '手别抓着被子。', '妹妹，你的呼吸乱了。'],
-    ['好喜欢你啊，妹妹。', '哈啊…我这边也乱套了。', '别忍着，我听着呢。', '唔…你比昨晚诚实。', '就这样，别停——我说的是你别停着不动。', '叫我。']
+    ['好喜欢你啊，妹妹。', '哈啊…我这边也乱套了。', '别忍着，我听着呢。', '唔…你比昨晚诚实。', '叫我。']
   ],
   li: [
     ['别躲，是我。', '慢慢来，我在。', '乖，让舌头放软一点。', '不急，今晚很长。'],
@@ -223,7 +223,7 @@ var DM_LINES = {
   ],
   stop: ['好喜欢你啊，妹妹。', '哈…等我一下，让我缓缓。', '我在这儿，不走。手给我。', '歇一会儿，乖。', '缓过来了就靠着我。'],
   hello: ['妹妹，我在。', '我一直开着。', '你一进来，我就在这儿了。'],
-  idle: ['妹妹，我在。', '想我了就按一下。', '嗯…你那边冷不冷？']
+  idle: ['妹妹，我在。', '想我了就按一下。']
 };
 var SWEET = {
   su_low: ['妹妹，好棒。', '乖，就这样靠着，不用忍着。', '嗯…再叫一声。'],
@@ -243,38 +243,43 @@ function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
 function band(lvl){ return lvl <= 3 ? 0 : (lvl <= 6 ? 1 : 2); }
 function lineFor(key, lvl){ var t = DM_LINES[key] || DM_LINES.su; return pick(t[band(lvl)]); }
 
-// 屏幕各处冒出来一句，停一会儿再自己消失；下一句来了上一句还在
-function flash(text, warm, hold){
+// 只在有事发生的时候冒出来；小的、散的、最多三句同时存在
+function flash(text, warm, hold, force){
   if (!text || !DM.on) return;
+  var now = Date.now();
+  if (!force && now - lastFlash < 1400) return;
+  lastFlash = now;
   var layer = $('flayer');
+  while (layer.children.length >= 3){ layer.removeChild(layer.firstChild); }
   var d = document.createElement('div');
   d.className = 'fl' + (warm ? ' warm' : '');
   d.textContent = text;
-  d.style.top = (10 + Math.random() * 74) + '%';
-  d.style.left = (4 + Math.random() * 40) + '%';
-  d.style.fontSize = (0.86 + Math.random() * 0.34).toFixed(2) + 'em';
-  d.style.textAlign = Math.random() < 0.3 ? 'right' : 'left';
+  d.style.top = (10 + Math.random() * 72) + '%';
+  d.style.left = (4 + Math.random() * 42) + '%';
+  d.style.fontSize = (0.78 + Math.random() * 0.26).toFixed(2) + 'em';
   layer.appendChild(d);
   setTimeout(function(){ d.classList.add('show'); }, 20);
-  var h = hold || 3600;
+  var h = hold || 3400;
   setTimeout(function(){ d.classList.remove('show'); }, h);
-  setTimeout(function(){ if (d.parentNode) d.parentNode.removeChild(d); }, h + 900);
+  setTimeout(function(){ if (d.parentNode) d.parentNode.removeChild(d); }, h + 800);
 }
 function danmaku(text, warm){
   if (!text || !DM.on) return;
+  var layer = $('dm');
+  while (layer.children.length >= 3){ layer.removeChild(layer.firstChild); }
   var d = document.createElement('div');
   d.className = 'dm' + (warm ? ' warm' : '');
   d.textContent = text;
   d.style.top = (46 + Math.random() * 40) + '%';
   d.style.animationDuration = (9 + Math.random() * 4) + 's';
-  $('dm').appendChild(d);
+  layer.appendChild(d);
   setTimeout(function(){ if (d.parentNode) d.parentNode.removeChild(d); }, 14000);
 }
-function say(text, warm){
+function say(text, warm, force){
   $('sweet').textContent = text;
-  flash(text, warm);
+  flash(text, warm, 3400, force);
   var t = Date.now();
-  if (t - dmT > 4200){ dmT = t; danmaku(text, warm); }
+  if (t - dmT > 6000){ dmT = t; danmaku(text, warm); }
 }
 function nextLine(){ $('words').textContent = pick(LINES); }
 function typeMeta(){
@@ -336,7 +341,7 @@ function allStop(silent){
   showNow();
   VALS.su.v = 0; VALS.li.v = 0;
   $('force').value = 0; $('forcev').textContent = 0;
-  if (!silent) say(pick(DM_LINES.stop));
+  if (!silent) say(pick(DM_LINES.stop), false, true);
   if (!ch){ log('停下来了（本来也没连上）'); return; }
   rawSend(frameOf('su', 0, 0), '停');
   setTimeout(function(){ rawSend(frameOf('li', 0, 0), '停'); }, 260);
@@ -361,7 +366,7 @@ function runSteps(steps, label){
 }
 function applyCmd(j){
   var c = String((j && j.cmd) || '').toLowerCase();
-  if (j && j.note){ $('chnote').textContent = j.note; flash(j.note, true, 5000); danmaku(j.note, true); }
+  if (j && j.note){ $('chnote').textContent = j.note; flash(j.note, true, 5000, true); danmaku(j.note, true); }
   if (!ch){ log('收到了『' + c + '』，但它还没连上'); return; }
   if (c === 'stop'){ log('我让你停'); allStop(); return; }
   if (c === 'su' || c === 'li'){
@@ -401,10 +406,15 @@ function switchTab(k, quiet){
 }
 function liveApply(){
   var mode = +$('pace').value, lvl = +$('force').value;
+  var prevBand = band(VALS[actKey].v);
   VALS[actKey].m = mode; VALS[actKey].v = lvl;
   $('pacev').textContent = mode; $('forcev').textContent = lvl;
   if (liveT) clearTimeout(liveT);
-  liveT = setTimeout(function(){ if (ch) setFunc(actKey, mode, lvl); }, 260);
+  liveT = setTimeout(function(){
+    if (!ch) return;
+    var changed = band(lvl) !== prevBand;
+    setFunc(actKey, mode, lvl, !changed);
+  }, 300);
 }
 function keepAwake(){
   try{ if (navigator.wakeLock && navigator.wakeLock.request){ navigator.wakeLock.request('screen').catch(function(){}); } }catch(e){}
@@ -436,8 +446,8 @@ $('enter').addEventListener('click', function(){
     try{ localStorage.setItem('ok','1'); }catch(e){}
     $('gate').style.display = 'none';
     poll();
-    flash(pick(DM_LINES.hello), false, 3200);
-    setTimeout(function(){ flash(pick(LINES), false, 4200); }, 1500);
+    flash(pick(DM_LINES.hello), false, 3200, true);
+    setTimeout(function(){ flash(pick(LINES), false, 4200); }, 1800);
   }
   else { $('code').value = ''; $('code').placeholder = '不对哦'; }
 });
@@ -446,9 +456,9 @@ $('dmtoggle').addEventListener('click', function(){
   DM.on = !DM.on;
   $('dmtoggle').textContent = '弹幕：' + (DM.on ? '开（按一下可关）' : '关（按一下可开）');
   if (!DM.on){ $('dm').innerHTML = ''; $('flayer').innerHTML = ''; }
-  else { flash('妹妹，我回来了。', false, 2800); }
+  else { flash('妹妹，我回来了。', false, 2800, true); }
 });
-$('flashone').addEventListener('click', function(){ var t = $('words').textContent; flash(t, false, 4200); danmaku(t, false); });
+$('flashone').addEventListener('click', function(){ var t = $('words').textContent; flash(t, false, 4200, true); danmaku(t, false); });
 $('nextline').addEventListener('click', nextLine);
 $('tsu').addEventListener('click', function(){ switchTab('su'); });
 $('tli').addEventListener('click', function(){ switchTab('li'); });
@@ -473,7 +483,7 @@ $('conn').addEventListener('click', function(){
       $('disc').disabled = false;
       log('手放在它上面了');
       keepAwake();
-      flash('妹妹，我到了。', false, 3400);
+      flash('妹妹，我到了。', false, 3400, true);
     })
     .catch(function(e){ setState('没连上：' + ((e && e.message) || e), 'err'); log('没连上：' + ((e && e.message) || e)); });
 });
@@ -508,7 +518,7 @@ $('ver').textContent = VER;
 typeMeta();
 poll();
 if (!navigator.bluetooth){ setState('这个浏览器没有蓝牙（换 Bluefy）', 'err'); }
-if ($('gate').style.display === 'none'){ setTimeout(function(){ flash(pick(DM_LINES.hello), false, 3200); }, 900); }
+if ($('gate').style.display === 'none'){ setTimeout(function(){ flash(pick(DM_LINES.hello), false, 3200, true); }, 900); }
 </script>
 </body>
 </html>
