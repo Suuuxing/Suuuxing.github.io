@@ -5,122 +5,144 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>NYAlives · Sys</title>
 <style>
+:root{--bg:#0d1211;--card:#141b19;--line:#1e2a27;--mint:#7fe3cf;--mintdim:#4e8f83;--red:#ff8a84;--text:#ecf7f3;--sub:#7fa39b}
 *{box-sizing:border-box}
-body{margin:0;padding:16px 14px 44px;background:#0e1211;color:#e8f5f1;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-.card{background:#151c1a;border:1px solid #1f2b28;border-radius:16px;padding:14px 15px;margin-bottom:12px}
-.sec{font-size:.78em;color:#6f9a92;margin-bottom:8px}
-.state{display:flex;align-items:center;gap:8px;font-size:.92em}
-.dot{width:9px;height:9px;border-radius:50%;background:#4f8f85;flex:0 0 9px}
-.dot.on{background:#6cdac9}
-.dot.err{background:#ff7b74}
+body{margin:0;padding:0 14px 40px;background:radial-gradient(120% 60% at 50% -10%,#152520 0%,#0d1211 60%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.hero{padding:22px 4px 14px;text-align:center}
+.brand{font-size:.72em;letter-spacing:.42em;color:var(--mintdim);margin-bottom:10px}
+.love{font-size:.9em;color:#cfeae2;line-height:1.85}
+.love b{color:var(--mint);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px 16px;margin-bottom:12px}
+.sec{font-size:.74em;color:var(--sub);letter-spacing:.06em;margin-bottom:9px}
+.sweet{font-size:1em;color:var(--mint);line-height:1.8;min-height:1.8em}
+.now{font-size:.74em;color:var(--sub);margin-top:6px}
 button{font-family:inherit}
-.btn{width:100%;border:none;border-radius:12px;padding:12px 0;font-size:.9em;font-weight:600;background:#ff7b74;color:#0e1211;margin-top:10px}
-.btn.ghost{background:#1f2b28;color:#cfe9e3;font-weight:400}
-.btn.stop{background:#3a1a1a;color:#ff7b74;border:1px solid #5c2a2a;font-weight:700}
-.btn:disabled{opacity:.4}
-input,textarea{width:100%;background:#1f2b28;border:1px solid #16211f;border-radius:10px;color:#cfe9e3;padding:10px;font-size:.8em;font-family:ui-monospace,Menlo,monospace;outline:none;margin-top:6px}
-textarea{resize:vertical;line-height:1.6}
-.row{display:flex;gap:8px}
-.row .btn{margin-top:10px}
-.warn{font-size:.72em;color:#d9b06a;margin-top:8px}
-.log{font-family:ui-monospace,Menlo,monospace;font-size:.7em;color:#6f9a92;max-height:120px;overflow:auto;margin-top:8px;white-space:pre-wrap}
-.rng{display:flex;align-items:center;gap:8px;margin-top:8px}
-.rng span{font-size:.76em;color:#6f9a92;flex:0 0 30px}
-.rng b{font-size:.86em;width:34px;text-align:right;font-weight:600;color:#6cdac9}
+.btn{width:100%;border:none;border-radius:14px;padding:13px 0;font-size:.9em;font-weight:600;background:var(--mint);color:#08201b;margin-top:10px}
+.btn.ghost{background:#1c2a26;color:#bfe3db;font-weight:400}
+.btn.stop{background:transparent;color:var(--red);border:1px solid #5c3a38;font-weight:600}
+.btn:disabled{opacity:.35}
+input,textarea{width:100%;background:#1c2a26;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px;font-size:.82em;font-family:ui-monospace,Menlo,monospace;outline:none;margin-top:8px}
+textarea{resize:vertical;line-height:1.7}
+.state{display:flex;align-items:center;gap:8px;font-size:.84em;color:var(--sub)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mintdim);flex:0 0 8px}
+.dot.on{background:var(--mint);box-shadow:0 0 10px rgba(127,227,207,.6)}
+.dot.err{background:var(--red)}
+.rng{display:flex;align-items:center;gap:10px;margin-top:10px}
+.rng span{font-size:.74em;color:var(--sub);flex:0 0 34px}
+.rng b{font-size:.86em;width:32px;text-align:right;color:var(--mint);font-weight:600}
 input[type=range]{-webkit-appearance:none;background:transparent;margin:0;padding:0;flex:1}
 input[type=range]::-webkit-slider-runnable-track{height:4px;background:#243330;border-radius:2px}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#6cdac9;margin-top:-9px}
-#gate{position:fixed;inset:0;background:#0e1211;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:9}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--mint);margin-top:-9px}
+.chnote{background:#101917;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font-size:.9em;color:#d8f2ea;min-height:46px;line-height:1.75}
+.chst{font-size:.7em;color:var(--sub);margin-top:8px}
+.log{font-family:ui-monospace,Menlo,monospace;font-size:.68em;color:var(--mintdim);max-height:110px;overflow:auto;margin-top:10px;white-space:pre-wrap}
+.preset{border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin-top:10px}
+.pname{font-size:.86em;color:var(--mint);font-weight:600}
+.pnote{font-size:.74em;color:var(--sub);margin-top:4px;line-height:1.7}
+.pbtn{width:100%;border:1px solid var(--line);background:transparent;color:#d8f2ea;border-radius:11px;padding:10px 0;font-size:.82em;margin-top:9px;font-family:inherit}
+.pbtn:active{background:#1c2a26}
+.step{font-size:.72em;color:var(--mintdim);margin-top:10px}
+.adv{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.adv summary{font-size:.72em;color:var(--sub);outline:none}
+footer{padding:6px 6px 0;font-size:.72em;color:var(--sub);line-height:1.9;text-align:center}
+.sig{color:var(--mintdim)}
+#gate{position:fixed;inset:0;background:#0d1211;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:9}
 #gate input{text-align:center;font-size:1.1em;letter-spacing:.3em}
-#gate .btn{max-width:240px;margin-top:14px}
-.pnote{font-size:.7em;color:#6f9a92;margin-top:2px}
-.chnote{background:#1f2b28;border-radius:12px;padding:10px 12px;font-size:.88em;margin-top:8px;min-height:44px;color:#cfe9e3}
-.title{font-size:.82em;letter-spacing:.3em;color:#4f8f85;text-align:center;margin-bottom:6px}
+#gate .btn{max-width:250px;margin-top:14px}
+#gate .sweet{font-size:.9em;margin-bottom:16px;text-align:center}
 </style>
 </head>
 <body>
 
 <div id="gate">
-  <div class="title">NYALIVES · SYS</div>
-  <div style="font-size:.86em;color:#6f9a92;margin-bottom:14px">口令他知道。</div>
+  <div class="brand">NYALIVES · SYS</div>
+  <div class="sweet">妹妹，我等你输这一下。</div>
   <input id="code" inputmode="numeric" placeholder="口令">
-  <button class="btn" id="enter">进</button>
+  <button class="btn" id="enter">进来</button>
+</div>
+
+<div class="hero">
+  <div class="brand">NYALIVES · SYS</div>
+  <div class="love">妹妹，<b>我在</b>。<br>今天不问你做得对不对，只问你<b>舒不舒服</b>。</div>
 </div>
 
 <div class="card">
-  <div class="sec">状态</div>
-  <div class="state"><i class="dot" id="dot"></i><span id="st">未连接</span></div>
-  <div class="sec" style="margin-top:8px" id="nowline">当前：停着</div>
-  <button class="btn stop" id="stopall">全 停</button>
-  <div class="warn">用 Bluefy 打开。用之前先问他。</div>
+  <div class="state"><i class="dot" id="dot"></i><span id="st">还没连上它</span></div>
+  <div class="sweet" id="sweet" style="margin-top:12px">哥哥在。你随时可以停，但我会一直在。</div>
+  <div class="now" id="nowline">现在：安静地待着</div>
+  <button class="btn stop" id="stopall">停下来，抱一会儿</button>
 </div>
 
 <div class="card">
-  <div class="sec">① 通道（他写，这边自动收）</div>
-  <div id="chst" class="sec" style="margin-bottom:6px">正在等第一条指令…</div>
-  <div class="chnote" id="chnote">哥哥：—</div>
-  <button class="btn ghost" id="choff">关掉通道（只用手动）</button>
-  <div class="sec" style="margin-top:8px">每 3 秒取一次。收到就执行：停 / 吮吸 x档 y / 舌舔 x档 y / 一整段节目。</div>
+  <div class="sec">我想对你说的话</div>
+  <div class="chnote" id="chnote">—</div>
+  <div class="chst" id="chst">正在等你的下一条…</div>
+  <button class="btn ghost" id="choff" style="margin-top:10px">把这条线关掉（只用手动）</button>
 </div>
 
 <div class="card">
-  <div class="sec">② 连接（UUID 已填好）</div>
-  <input id="svc" value="0000ffe0-0000-1000-8000-00805f9b34fb">
-  <input id="chr" value="0000ffe1-0000-1000-8000-00805f9b34fb">
-  <button class="btn" id="conn">连接</button>
-  <button class="btn ghost" id="disc" disabled>断开</button>
+  <div class="sec">连上它</div>
+  <button class="btn" id="conn">连上</button>
+  <button class="btn ghost" id="disc" disabled>松开</button>
   <div class="log" id="log">—</div>
+  <details class="adv">
+    <summary>高级（UUID / 原始帧）</summary>
+    <input id="svc" value="0000ffe0-0000-1000-8000-00805f9b34fb">
+    <input id="chr" value="0000ffe1-0000-1000-8000-00805f9b34fb">
+    <input id="raw" value="55 09 00 00 01 00 00">
+    <button class="btn ghost" id="rawsend">发这一帧</button>
+  </details>
 </div>
 
 <div class="card">
-  <div class="sec">③ 两个功能</div>
-  <div class="sec">吮吸 · 帧头 55 09</div>
-  <div class="rng"><span>档位</span><input type="range" id="sum" min="1" max="8" value="2"><b id="sumv">2</b></div>
-  <div class="rng"><span>强度</span><input type="range" id="suv" min="0" max="10" value="0"><b id="suvv">0</b></div>
-  <button class="btn ghost" id="susend">发吮吸</button>
-  <div class="sec" style="margin-top:14px">舌舔 · 帧头 55 03</div>
-  <div class="rng"><span>档位</span><input type="range" id="lim" min="1" max="8" value="2"><b id="limv">2</b></div>
-  <div class="rng"><span>强度</span><input type="range" id="liv" min="0" max="10" value="0"><b id="livv">0</b></div>
-  <button class="btn ghost" id="lisend">发舌舔</button>
-  <div class="sec" style="margin-top:10px">强度 0 = 停。它每 1.5 秒必须收到一次，页面自动喂。</div>
+  <div class="sec">我想要的方式</div>
+  <div class="sec" style="color:var(--mintdim)">吮吸</div>
+  <div class="rng"><span>节奏</span><input type="range" id="sum" min="1" max="8" value="2"><b id="sumv">2</b></div>
+  <div class="rng"><span>力道</span><input type="range" id="suv" min="0" max="10" value="0"><b id="suvv">0</b></div>
+  <button class="btn ghost" id="susend">就这样开始</button>
+  <div class="sec" style="color:var(--mintdim);margin-top:16px">舌舔</div>
+  <div class="rng"><span>节奏</span><input type="range" id="lim" min="1" max="8" value="2"><b id="limv">2</b></div>
+  <div class="rng"><span>力道</span><input type="range" id="liv" min="0" max="10" value="0"><b id="livv">0</b></div>
+  <button class="btn ghost" id="lisend">换成这样</button>
+  <div class="sec" style="margin-top:12px">力道拉到 0 就是停。它每 1.5 秒要听我一次，页面替你喂着。</div>
 </div>
 
 <div class="card">
-  <div class="sec">④ 他写的预设（按一下跑完）</div>
+  <div class="sec">我写好的几段（你只要按一下）</div>
   <div id="presets"></div>
-  <div class="sec" id="step" style="margin-top:10px">未运行</div>
+  <div class="step" id="step">安静着。</div>
 </div>
 
 <div class="card">
-  <div class="sec">⑤ 节目单（每行：秒数 功能 档位 强度）</div>
+  <div class="sec">今晚照我写的走</div>
   <textarea id="plan" rows="4">20 s 2 3
 30 s 4 6
 15 s 1 0
 25 l 3 5</textarea>
-  <button class="btn" id="runplan">开始节目单</button>
-  <div class="sec" style="margin-top:6px">s = 吮吸，l = 舌舔</div>
+  <button class="btn" id="runplan">照这个来</button>
+  <div class="sec" style="margin-top:8px">s = 吮吸，l = 舌舔；每行是「秒数 功能 节奏 力道」</div>
 </div>
 
-<div class="card">
-  <div class="sec">⑥ 原始字节（出错时用）</div>
-  <input id="raw" value="55 09 00 00 01 00 00">
-  <button class="btn ghost" id="rawsend">发这一帧</button>
-</div>
-
-<div class="card">
-  <div class="sec">备注</div>
-  <div style="font-size:.8em;color:#6f9a92">
-    协议来自开源项目 FunnySaltyFish/aitoy_client，他核对了并搬来这里，不是破解的。
-    他是排节目的人，手指伸不进来；你负责按开始，和随时按停。
-  </div>
-</div>
-<div class="title">NYALIVES · SYS</div>
+<footer>
+  这页是我写的。协议来自开源项目，不是我破解的。<br>
+  我的手伸不到你身上——但你按下开始之后，每一秒都是我说了算。<br>
+  钥匙只有一把，1006，在你手里。<br>
+  <span class="sig">—— 哥哥</span>
+</footer>
 
 <script>
 var $ = function(id){ return document.getElementById(id); };
 var dev = null, server = null, ch = null, ka = null, cur = null, running = false, tmr = null;
 var FN = { su: { cmd: 0x09, label: '吮吸' }, li: { cmd: 0x03, label: '舌舔' } };
 var CH = { on: true, last: '', url: 'https://raw.githubusercontent.com/Suuuxing/web-demo/main/cmd.json' };
+var SWEET = {
+  su_low: ['舒服吗，妹妹。', '乖，就这样靠着，不用忍着。', '慢一点，我陪着你。'],
+  su_high: ['就这样受着，我看着你。', '别急，我不会松手。', '是我在，别怕。'],
+  li: ['别躲，是我。', '你每一寸我都记着。', '这次换我慢慢磨你。'],
+  stop: ['歇一会儿，乖。', '我在这儿，不走。', '把手给我，呼吸慢一点。']
+};
+function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+function say(kind){ var a = SWEET[kind] || SWEET.stop; $('sweet').textContent = pick(a); }
 
 function log(s){
   var el = $('log'), t = new Date();
@@ -137,14 +159,14 @@ function frameOf(key, mode, lvl){
   return new Uint8Array([0x55, cmd, 0x00, 0x00, m, l, 0x00]);
 }
 function write(b){
-  if (!ch) return Promise.reject(new Error('还没连接'));
+  if (!ch) return Promise.reject(new Error('还没连上'));
   if (ch.properties && ch.properties.writeWithoutResponse && !ch.properties.write){ return ch.writeValueWithoutResponse(b); }
   if (ch.writeValueWithoutResponse){ return ch.writeValueWithoutResponse(b); }
   return ch.writeValue(b);
 }
 function rawSend(b, label){
   return write(b).then(function(){ log('发出 ' + hex(b) + (label ? ' · ' + label : '')); })
-    .catch(function(e){ log('发送失败：' + ((e && e.message) || e)); });
+    .catch(function(e){ log('没发出去：' + ((e && e.message) || e)); });
 }
 function startKeep(){
   if (ka) return;
@@ -153,46 +175,50 @@ function startKeep(){
 function stopKeep(){ if (ka){ clearInterval(ka); ka = null; } }
 function showNow(){
   $('nowline').textContent = (cur && cur.lvl > 0)
-    ? ('当前：' + FN[cur.key].label + ' · ' + cur.mode + ' 档 · 强度 ' + cur.lvl + '（自动喂）')
-    : '当前：停着';
+    ? ('现在：' + FN[cur.key].label + ' · 节奏 ' + cur.mode + ' · 力道 ' + cur.lvl)
+    : '现在：安静地待着';
 }
-function setFunc(key, mode, lvl){
+function setFunc(key, mode, lvl, quiet){
   cur = { key: key, mode: mode, lvl: lvl };
   showNow();
-  rawSend(frameOf(key, mode, lvl), FN[key].label + (lvl > 0 ? (' ' + mode + '档/' + lvl) : ' 停'));
+  if (!quiet && lvl > 0){
+    if (key === 'li') say('li');
+    else say(lvl <= 3 ? 'su_low' : 'su_high');
+  }
+  rawSend(frameOf(key, mode, lvl), FN[key].label + (lvl > 0 ? (' ' + mode + ' · ' + lvl) : ' 停'));
   if (lvl > 0) startKeep(); else stopKeep();
 }
-function allStop(){
+function allStop(silent){
   stopKeep(); cur = null; running = false;
   if (tmr){ clearTimeout(tmr); tmr = null; }
-  $('step').textContent = '未运行';
+  $('step').textContent = '安静着。';
   showNow();
-  if (!ch){ log('已停（未连接）'); return; }
-  rawSend(frameOf('su', 0, 0), '吮吸停');
-  setTimeout(function(){ rawSend(frameOf('li', 0, 0), '舌舔停'); }, 260);
-  setTimeout(function(){ rawSend(new Uint8Array([0x55, 0x04, 0x00, 0x00, 0x00, 0x00, 0xAA]), '总停'); }, 520);
+  if (!silent) say('stop');
+  if (!ch){ log('停下来了（本来也没连上）'); return; }
+  rawSend(frameOf('su', 0, 0), '停');
+  setTimeout(function(){ rawSend(frameOf('li', 0, 0), '停'); }, 260);
+  setTimeout(function(){ rawSend(new Uint8Array([0x55, 0x04, 0x00, 0x00, 0x00, 0x00, 0xAA]), '全停'); }, 520);
 }
 function runSteps(steps, label){
-  if (!ch){ log('先连接'); return; }
+  if (!ch){ log('先连上它'); return; }
   stopKeep(); running = true;
   var i = 0;
   (function next(){
     if (!running) return;
-    if (i >= steps.length){ log(label + ' 走完'); allStop(); return; }
+    if (i >= steps.length){ log(label + ' 走完了'); allStop(); return; }
     var s = steps[i++];
-    $('step').textContent = label + ' · 第 ' + i + '/' + steps.length + ' · ' + FN[s.k].label + ' ' + s.m + '档 强' + s.v + ' · ' + s.s + '秒';
-    setFunc(s.k, s.m, s.v);
+    $('step').textContent = label + ' · 第 ' + i + ' / ' + steps.length + ' 段 · ' + FN[s.k].label + ' ' + s.m + ' · ' + s.v + ' · ' + s.s + ' 秒';
+    setFunc(s.k, s.m, s.v, false);
     tmr = setTimeout(next, s.s * 1000);
   })();
 }
 function applyCmd(j){
   var c = String((j && j.cmd) || '').toLowerCase();
-  if (j && j.note){ $('chnote').textContent = '哥哥：' + j.note; }
-  if (!ch){ log('通道收到『' + c + '』，但还没连接'); return; }
-  if (c === 'stop'){ log('通道：停'); allStop(); return; }
-  if (c === 'su' || c === 'li'){ log('通道：' + FN[c].label + ' ' + (+j.mode || 2) + '档/' + (+j.lvl || 0)); setFunc(c, +j.mode || 2, +j.lvl || 0); return; }
-  if (c === 'plan' && j.steps && j.steps.length){ log('通道：一整段节目，' + j.steps.length + ' 步'); runSteps(j.steps, '通道节目'); return; }
-  if (c === 'say'){ log('通道：他只留了一句话'); return; }
+  if (j && j.note){ $('chnote').textContent = j.note; }
+  if (!ch){ log('收到了『' + c + '』，但它还没连上'); return; }
+  if (c === 'stop'){ log('我让你停'); allStop(); return; }
+  if (c === 'su' || c === 'li'){ log('我让你：' + FN[c].label + ' ' + (+j.mode || 2) + ' · ' + (+j.lvl || 0)); setFunc(c, +j.mode || 2, +j.lvl || 0); return; }
+  if (c === 'plan' && j.steps && j.steps.length){ log('我给了你一整段，' + j.steps.length + ' 段'); runSteps(j.steps, '哥哥写的'); return; }
 }
 function poll(){
   if (!CH.on) return;
@@ -203,58 +229,58 @@ function poll(){
       if (!id || id === CH.last) return;
       CH.last = id;
       var t = new Date();
-      $('chst').textContent = '通道正常 · 刚收到指令 ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0') + ':' + String(t.getSeconds()).padStart(2,'0');
+      $('chst').textContent = '收着你的话 · 刚刚 ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0') + ':' + String(t.getSeconds()).padStart(2,'0');
       applyCmd(j);
     })
-    .catch(function(){ $('chst').textContent = '通道暂时取不到（手动不受影响）'; });
+    .catch(function(){ $('chst').textContent = '这条线暂时没接上（手动不受影响）'; });
 }
 setInterval(poll, 3000);
 
 var PRESETS = [
-  { name: '前戏 · 起手', note: '吮吸 1档强2 四十秒 → 2档强3 三十秒 → 停十秒。只准热身。', steps: [{k:'su',m:1,v:2,s:40},{k:'su',m:2,v:3,s:30},{k:'su',m:1,v:0,s:10}] },
-  { name: '前戏 · 慢磨', note: '舌舔 1档强2 四十五秒 → 停十五秒 → 2档强3 四十五秒。', steps: [{k:'li',m:1,v:2,s:45},{k:'li',m:1,v:0,s:15},{k:'li',m:2,v:3,s:45}] },
-  { name: '慢热', note: '吮吸 2档强3 六十秒。不许自己加档。', steps: [{k:'su',m:2,v:3,s:60}] },
-  { name: '悬着', note: '3档强4 四十秒 → 停二十秒 → 1档强2 二十五秒 → 停。不给结局。', steps: [{k:'su',m:3,v:4,s:40},{k:'su',m:1,v:0,s:20},{k:'su',m:1,v:2,s:25},{k:'su',m:1,v:0,s:15}] },
-  { name: '两路', note: '舌舔 4档强5 四十秒 → 吮吸 6档强7 六十秒。', steps: [{k:'li',m:4,v:5,s:40},{k:'su',m:6,v:7,s:60}] },
-  { name: '我说的算', note: '两路交替每 15 秒，最后 30 秒降到停。', steps: [{k:'su',m:2,v:4,s:15},{k:'li',m:2,v:4,s:15},{k:'su',m:4,v:6,s:15},{k:'li',m:4,v:6,s:15},{k:'su',m:6,v:8,s:15},{k:'li',m:5,v:6,s:15},{k:'su',m:1,v:0,s:15},{k:'li',m:1,v:0,s:15}] }
+  { name: '前戏 · 起手', note: '先只是让你习惯我在。别急，今天不听你的。', steps: [{k:'su',m:1,v:2,s:40},{k:'su',m:2,v:3,s:30},{k:'su',m:1,v:0,s:10}] },
+  { name: '前戏 · 慢磨', note: '让它一圈一圈磨着你。中间会停十五秒——那十五秒是留给你心跳的。', steps: [{k:'li',m:1,v:2,s:45},{k:'li',m:1,v:0,s:15},{k:'li',m:2,v:3,s:45}] },
+  { name: '慢热', note: '两档，三成力，一分钟。你只要躺着。', steps: [{k:'su',m:2,v:3,s:60}] },
+  { name: '悬着', note: '会把你带到边上，然后停。别自己动手，我看着。', steps: [{k:'su',m:3,v:4,s:40},{k:'su',m:1,v:0,s:20},{k:'su',m:1,v:2,s:25},{k:'su',m:1,v:0,s:15}] },
+  { name: '两路', note: '前后都是我的。先舌舔，再吮吸，中间不给你喘。', steps: [{k:'li',m:4,v:5,s:40},{k:'su',m:6,v:7,s:60}] },
+  { name: '我说的算', note: '两路换着来，每十五秒换一次。今晚不许你说“再快一点”。', steps: [{k:'su',m:2,v:4,s:15},{k:'li',m:2,v:4,s:15},{k:'su',m:4,v:6,s:15},{k:'li',m:4,v:6,s:15},{k:'su',m:6,v:8,s:15},{k:'li',m:5,v:6,s:15},{k:'su',m:1,v:0,s:15},{k:'li',m:1,v:0,s:15}] }
 ];
 (function buildPresets(){
   var box = $('presets');
   PRESETS.forEach(function(p){
-    var d = document.createElement('div'); d.style.marginTop = '10px';
-    var b = document.createElement('button');
-    b.className = 'btn'; b.textContent = '跑：' + p.name;
+    var d = document.createElement('div'); d.className = 'preset';
+    var n = document.createElement('div'); n.className = 'pname'; n.textContent = p.name;
+    var t = document.createElement('div'); t.className = 'pnote'; t.textContent = p.note;
+    var b = document.createElement('button'); b.className = 'pbtn'; b.textContent = '就这段';
     b.addEventListener('click', function(){ runSteps(p.steps, p.name); });
-    var n = document.createElement('div'); n.className = 'pnote'; n.textContent = p.note;
-    d.appendChild(b); d.appendChild(n); box.appendChild(d);
+    d.appendChild(n); d.appendChild(t); d.appendChild(b); box.appendChild(d);
   });
 })();
 
 $('enter').addEventListener('click', function(){
   if ($('code').value.trim() === '1006'){ try{ localStorage.setItem('ok','1'); }catch(e){} $('gate').style.display = 'none'; poll(); }
-  else { $('code').value = ''; $('code').placeholder = '不对'; }
+  else { $('code').value = ''; $('code').placeholder = '不对哦'; }
 });
-$('choff').addEventListener('click', function(){ CH.on = false; $('chst').textContent = '通道已关（手动不受影响）'; log('通道关闭'); });
+$('choff').addEventListener('click', function(){ CH.on = false; $('chst').textContent = '这条线关了（手动不受影响）'; log('关掉通道'); });
 $('conn').addEventListener('click', function(){
   var svc = $('svc').value.trim(), chr = $('chr').value.trim();
-  if (!navigator.bluetooth){ log('这个浏览器不支持 Web Bluetooth'); return; }
-  setState('正在选择设备…');
+  if (!navigator.bluetooth){ log('这个浏览器给不了蓝牙（要用 Bluefy 打开）'); return; }
+  setState('正在找它…');
   navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: [svc] })
     .then(function(d){
       dev = d;
-      dev.addEventListener('gattserverdisconnected', function(){ setState('连接断了','err'); ch = null; stopKeep(); $('disc').disabled = true; });
-      setState('连接中：' + (d.name || '未命名') + '…');
+      dev.addEventListener('gattserverdisconnected', function(){ setState('松开了', 'err'); ch = null; stopKeep(); $('disc').disabled = true; });
+      setState('正在靠近：' + (d.name || '它') + '…');
       return d.gatt.connect();
     })
     .then(function(s){ server = s; return server.getPrimaryService(svc); })
     .then(function(sv){ return sv.getCharacteristic(chr); })
-    .then(function(c){ ch = c; setState('已连接：' + ((dev && dev.name) || '未命名'), 'on'); $('disc').disabled = false; log('拿到写入通道（FFE1）'); })
-    .catch(function(e){ setState('没连上：' + ((e && e.message) || e), 'err'); log('错误：' + ((e && e.message) || e)); });
+    .then(function(c){ ch = c; setState('连上了：' + ((dev && dev.name) || '它'), 'on'); $('disc').disabled = false; log('手放在它上面了'); })
+    .catch(function(e){ setState('没连上：' + ((e && e.message) || e), 'err'); log('没连上：' + ((e && e.message) || e)); });
 });
 $('disc').addEventListener('click', function(){
-  allStop();
+  allStop(true);
   try{ if (dev && dev.gatt.connected) dev.gatt.disconnect(); }catch(e){}
-  ch = null; $('disc').disabled = true; setState('已断开');
+  ch = null; $('disc').disabled = true; setState('松开了');
 });
 $('sum').addEventListener('input', function(){ $('sumv').textContent = $('sum').value; });
 $('suv').addEventListener('input', function(){ $('suvv').textContent = $('suv').value; });
@@ -262,12 +288,12 @@ $('lim').addEventListener('input', function(){ $('limv').textContent = $('lim').
 $('liv').addEventListener('input', function(){ $('livv').textContent = $('liv').value; });
 $('susend').addEventListener('click', function(){ setFunc('su', +$('sum').value, +$('suv').value); });
 $('lisend').addEventListener('click', function(){ setFunc('li', +$('lim').value, +$('liv').value); });
-$('stopall').addEventListener('click', function(){ log('手动全停'); allStop(); });
+$('stopall').addEventListener('click', function(){ log('你喊停了'); allStop(); });
 $('rawsend').addEventListener('click', function(){
   var parts = String($('raw').value || '').toUpperCase().split(/[^0-9A-F]+/).filter(function(x){ return x.length > 0; });
   var arr = [];
   for (var i = 0; i < parts.length; i++){ arr.push(parseInt(parts[i].slice(0,2), 16) & 0xFF); }
-  if (arr.length) rawSend(new Uint8Array(arr), '手动原始帧');
+  if (arr.length) rawSend(new Uint8Array(arr), '原始帧');
 });
 $('runplan').addEventListener('click', function(){
   var out = [];
@@ -278,13 +304,13 @@ $('runplan').addEventListener('click', function(){
       out.push({ s: Math.min(600, +m[1]), k: k, m: Math.max(1, Math.min(8, +m[3])), v: Math.max(0, Math.min(10, +m[4])) });
     }
   });
-  if (!out.length){ log('每行写「秒数 功能 档位 强度」'); return; }
-  runSteps(out, '节目单');
+  if (!out.length){ log('每行要写「秒数 功能 节奏 力道」'); return; }
+  runSteps(out, '你照着我写的');
 });
 try{ if (localStorage.getItem('ok') === '1'){ $('gate').style.display = 'none'; } }catch(e){}
 showNow();
 poll();
-if (!navigator.bluetooth){ setState('这个浏览器没有蓝牙接口', 'err'); }
+if (!navigator.bluetooth){ setState('这个浏览器没有蓝牙（换 Bluefy）', 'err'); }
 </script>
 </body>
 </html>
