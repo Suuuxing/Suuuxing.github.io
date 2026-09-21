@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>小装置 · 控制台</title>
+<style>
+body{margin:0;background:#0e0e10;color:#f2f2f7;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:14px;padding:30px;text-align:center}
+.s{color:#98989f;font-size:.82em;line-height:1.6}
+button{background:#2c2c2e;color:#f2f2f7;border:none;border-radius:12px;padding:12px 24px;font-size:.9em;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="s" id="msg">正在取页面…</div>
+<button id="retry" style="display:none">再试一次</button>
+<script>
+var SRC = 'https://raw.githubusercontent.com/Suuuxing/web-demo/main/index.html';
+function load(){
+  var m = document.getElementById('msg'), r = document.getElementById('retry');
+  m.textContent = '正在取页面…';
+  r.style.display = 'none';
+  fetch(SRC + '?t=' + Date.now(), { cache: 'no-store' })
+    .then(function(res){ if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+    .then(function(t){
+      if (t.indexOf('<html') < 0 && t.indexOf('<!DOCTYPE') < 0) throw new Error('内容不对');
+      document.open(); document.write(t); document.close();
+    })
+    .catch(function(e){
+      m.textContent = '没取到（' + ((e && e.message) || e) + '）。多半是网络抖了一下，再试一次就好。';
+      r.style.display = 'inline-block';
+    });
+}
+document.getElementById('retry').addEventListener('click', load);
+load();
+</script>
+</body>
+</html>
