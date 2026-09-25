@@ -172,7 +172,7 @@ footer{padding:4px 6px 0;font-size:.72em;color:var(--sub);line-height:1.95;text-
 
 <script>
 var $ = function(id){ return document.getElementById(id); };
-var dev = null, server = null, ch = null, ka = null, cur = null, running = false, tmr = null, liveT = null, dmT = 0, lastFlash = 0;
+var dev = null, server = null, ch = null, ka = null, cur = null, running = false, tmr = null, liveT = null, dmT = 0, lastFlash = 0, dmLastText = '', dmLanes = [0,0,0,0];
 var FN = { su: { cmd: 0x09, label: '吮吸' }, li: { cmd: 0x03, label: '舌舔' } };
 var CH = { on: true, last: '', url: 'https://raw.githubusercontent.com/Suuuxing/web-demo/main/cmd.json' };
 var DM = { on: true };
@@ -292,13 +292,21 @@ function flash(text, warm, hold, force){
 }
 function danmaku(text, warm){
   if (!text || !DM.on) return;
+  if (text === dmLastText) return;
   var layer = $('dm');
   while (layer.children.length >= 3){ layer.removeChild(layer.firstChild); }
+  var lane = -1, now = Date.now();
+  for (var i = 0; i < dmLanes.length; i++){
+    if (now - dmLanes[i] > 7000){ lane = i; break; }
+  }
+  if (lane < 0) lane = Math.floor(Math.random() * dmLanes.length);
+  dmLanes[lane] = now;
+  dmLastText = text;
   var d = document.createElement('div');
   d.className = 'dm' + (warm ? ' warm' : '');
   d.textContent = text;
-  d.style.top = (46 + Math.random() * 40) + '%';
-  d.style.animationDuration = (9 + Math.random() * 4) + 's';
+  d.style.top = (38 + lane * 10) + '%';
+  d.style.animationDuration = (9.5 + Math.random() * 2.5) + 's';
   layer.appendChild(d);
   setTimeout(function(){ if (d.parentNode) d.parentNode.removeChild(d); }, 14000);
 }
